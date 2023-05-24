@@ -5,7 +5,6 @@ module Stepable
         move_diffs.each do |move|
             dx, dy = move
             new_pos = row + dx, col + dy
-            print "we're making moves! \n"
             if ((row+dx).between?(0,7) && (col+dy).between?(0,7)) && board[new_pos].nil?
                 print "#{new_pos} is a valid move! \n"
                 valid_moves << new_pos
