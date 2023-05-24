@@ -62,10 +62,10 @@ class Board
         if !self[start_pos].moves.include?(end_pos)
             raise 'this piece cannot move here'
         end
-        self[end_pos].pos = NullPiece.instance if self[end_pos].is_a?(Piece)
-        self[end_pos] = self[start_pos]
+        self[end_pos].pos = nil if !self[end_pos].is_a?(NullPiece)
+        self[end_pos] = self[start_pos].class.new(self[start_pos].color,self,end_pos)
         self[start_pos] = NullPiece.instance
-        self[end_pos].pos = end_pos
+        self[end_pos].pos
     end
 
     def valid_pos?(end_pos)

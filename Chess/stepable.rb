@@ -5,6 +5,7 @@ module Stepable
         move_diffs.each do |move|
             dx, dy = move
             new_pos = row + dx, col + dy
+            print "move is #{move} and new position is #{new_pos} \n"
             if board.valid_pos?(new_pos) && board[new_pos].is_a?(NullPiece)
                 valid_moves << new_pos
             elsif board.valid_pos?(new_pos) && !board[new_pos].is_a?(NullPiece)

@@ -77,9 +77,17 @@ class Cursor
 
   def handle_key(key)
     case key
-    when :return || :space
+    when :return
       cursor_pos
-    when :left || :right || :up || :down
+    when :space
+      cursor_pos
+    when :right
+      update_pos(MOVES[key])
+    when :left
+      update_pos(MOVES[key])
+    when :down
+      update_pos(MOVES[key])
+    when :up
       update_pos(MOVES[key])
     when :ctrl_c
       Process.exit(0)
@@ -87,11 +95,11 @@ class Cursor
   end
 
   def update_pos(diff)
-    row, col = cursor_pos
+    row, col = @cursor_pos
     updated_pos = row + diff[0], col + diff[1]
     if board.valid_pos?(updated_pos)
       @cursor_pos = updated_pos
     end
-    cursor_pos
+    @cursor_pos
   end
 end
