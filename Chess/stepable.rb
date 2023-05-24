@@ -5,11 +5,9 @@ module Stepable
         move_diffs.each do |move|
             dx, dy = move
             new_pos = row + dx, col + dy
-            if ((row+dx).between?(0,7) && (col+dy).between?(0,7)) && board[new_pos].nil?
-                print "#{new_pos} is a valid move! \n"
+            if board.valid_pos?(new_pos) && board[new_pos].is_a?(NullPiece)
                 valid_moves << new_pos
-            elsif ((row+dx).between?(0,7) && (col+dy).between?(0,7)) && !board[new_pos].nil?
-                print "#{new_pos} is a valid move! \n"
+            elsif board.valid_pos?(new_pos) && !board[new_pos].is_a?(NullPiece)
                 valid_moves << new_pos if board[new_pos].color != color
             end
         end

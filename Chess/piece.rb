@@ -18,7 +18,7 @@ class Piece
         row, col = pos
         end_pos = [row + move[0], col + move[1]]
         if end_pos[0].between?(0,7) && end_pos[1].between?(0,7)
-            if board[end_pos].nil?
+            if board[end_pos].is_a?(NullPiece)
                 return true
             elsif board[end_pos].color != color
                 return true

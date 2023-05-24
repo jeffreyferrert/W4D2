@@ -24,12 +24,12 @@ module Slideable
         unblocked_moves = []
         row, col = pos
         current_pos = row + dx, col + dy
-        until (!(row+dx).between?(0,7) || !(col+dy).between?(0,7)) || !board[current_pos].nil?
+        until !board.valid_pos?(current_pos) || !board[current_pos].is_a?(NullPiece)
             unblocked_moves << current_pos
             row, col = current_pos
             current_pos = row + dx, col + dy
         end
-        if (row+dx).between?(0,7) && (col+dy).between?(0,7)
+        if board.valid_pos?(current_pos)
             unblocked_moves << current_pos if board[current_pos].color != color
         end
         unblocked_moves

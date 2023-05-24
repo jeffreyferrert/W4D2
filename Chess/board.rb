@@ -5,14 +5,15 @@ require_relative 'bishop'
 require_relative 'king'
 require_relative 'queen'
 require_relative 'pawn'
+require_relative 'null_piece'
 require "colorize"
-# require_relative 'null_piece'
+
 
 
 class Board
     attr_accessor :rows
     def initialize
-        @rows = Array.new(8) { Array.new(8) { nil }}
+        @rows = Array.new(8) { Array.new(8, NullPiece.instance)}
         @rows[0] = [Rook.new(:black,self,[0,0]),
                     Knight.new(:black,self,[0,1]),
                     Bishop.new(:black,self,[0,2]),
@@ -55,28 +56,21 @@ class Board
         @rows[row][col] = val
     end
     def move_piece(start_pos, end_pos)
-        if self[start_pos].nil? 
+        if self[start_pos].is_a?(NullPiece)
             raise 'no piece to move'
         end
         if !self[start_pos].moves.include?(end_pos)
             raise 'this piece cannot move here'
         end
-        self[end_pos].pos = nil if self[end_pos].is_a?(Piece)
+        self[end_pos].pos = NullPiece.instance if self[end_pos].is_a?(Piece)
         self[end_pos] = self[start_pos]
-        self[start_pos] = nil
+        self[start_pos] = NullPiece.instance
         self[end_pos].pos = end_pos
     end
-    def render
-        rows.each do |row|
-            row.each do |square|
-                if !square.nil?
-                    print square.symbol.colorize(square.color) + " "
-                else
-                    print "  "
-                end
-            end
-            print "\n"
-        end
+
+    def valid_pos?(end_pos)
+        row, col = end_pos
+        row.between?(0,7) && col.between?(0,7)
     end
     def inspect
         "<Board:#{object_id}>"
