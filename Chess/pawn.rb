@@ -8,22 +8,20 @@ class Pawn < Piece
 
     end
     def moves
-        poss_moves = []
-
+        valid_moves = []
         if at_start_row?
-            poss_moves += forward_steps
+            valid_moves += forward_steps
         else
-            poss_moves += forward_dir
+            valid_moves += forward_dir
         end
         row, col = pos
-        valid_moves = poss_moves.select do |move|
-            (row+move[0]).between?(0,7) || (col+move[1]).between?(0,7)
+        valid_moves.reject! do |move|
+            !valid?(move)
         end
         valid_moves += side_attacks.select do |move|
-            (row+move[0]).between?(0,7) || (col+move[1]).between?(0,7) &&
-            (!board[[row+move[0],col+move[1]]].nil? && board[[row+move[0],col+move[1]]].color != color)
+            valid?(move) && !board[row + move[0], col + move[0]].nil?
         end
-        valid_moves.map {|move| [row+move[0],col+move[1]]}
+        valid_moves.map {|move| [row + move[0],col + move[1]]}
     end
 
     private

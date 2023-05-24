@@ -14,8 +14,16 @@ class Piece
     def empty?
 
     end
-    def valid_moves
-        false #placeholder
+    def valid?(end_pos)
+        row, col = end_pos
+        if (row).between?(0,7) && (col).between?(0,7)
+            if board[end_pos].nil?
+                return true
+            elsif board[end_pos].color != color
+                return true
+            end
+        end
+        false
     end
     def pos=(val)
 
