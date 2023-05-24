@@ -5,7 +5,11 @@ class Pawn < Piece
     FORWARD_DIR = [[1,0],[2,0]]
 
     def symbol
-
+        if color == :white
+            "♙"
+        else
+            "♟︎"
+        end
     end
     def moves
         valid_moves = []

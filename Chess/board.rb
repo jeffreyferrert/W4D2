@@ -5,6 +5,7 @@ require_relative 'bishop'
 require_relative 'king'
 require_relative 'queen'
 require_relative 'pawn'
+require "colorize"
 # require_relative 'null_piece'
 
 
@@ -64,5 +65,20 @@ class Board
         self[end_pos] = self[start_pos]
         self[start_pos] = nil
         self[end_pos].pos = end_pos
+    end
+    def render
+        rows.each do |row|
+            row.each do |square|
+                if !square.nil?
+                    print square.symbol.colorize(square.color) + " "
+                else
+                    print "  "
+                end
+            end
+            print "\n"
+        end
+    end
+    def inspect
+        "<Board:#{object_id}>"
     end
 end
