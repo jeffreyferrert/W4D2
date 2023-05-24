@@ -19,7 +19,7 @@ class Pawn < Piece
             !valid?(move)
         end
         valid_moves += side_attacks.select do |move|
-            valid?(move) && !board[row + move[0], col + move[0]].nil?
+            valid?(move) && !board[[row + move[0], col + move[0]]].nil?
         end
         valid_moves.map {|move| [row + move[0],col + move[1]]}
     end
