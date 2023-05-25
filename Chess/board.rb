@@ -46,6 +46,7 @@ class Board
                     Bishop.new(:white,self,[7,5]),
                     Knight.new(:white,self,[7,6]),
                     Rook.new(:white,self,[7,7])]
+        @turn = :white
     end
     def [](pos)
         row, col = pos
@@ -59,6 +60,9 @@ class Board
         if self[start_pos].is_a?(NullPiece)
             raise 'no piece to move'
         end
+        if self[start_pos].color != @turn
+            raise 'it is not #{self[start_pos].color}`s turn.'
+        end
         if !self[start_pos].moves.include?(end_pos)
             raise 'this piece cannot move here'
         end
@@ -66,6 +70,7 @@ class Board
         self[end_pos] = self[start_pos].class.new(self[start_pos].color,self,end_pos)
         self[start_pos] = NullPiece.instance
         self[end_pos].pos
+        @turn = @turn == :white ? :black : :white
     end
 
     def valid_pos?(end_pos)

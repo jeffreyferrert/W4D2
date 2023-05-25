@@ -96,10 +96,13 @@ class Cursor
 
   def update_pos(diff)
     row, col = @cursor_pos
+    print "cursor is nil \n" if @cursor_pos.nil?
     updated_pos = row + diff[0], col + diff[1]
     if board.valid_pos?(updated_pos)
       @cursor_pos = updated_pos
+      return @cursor_pos
+    else
+      return nil
     end
-    @cursor_pos
   end
 end

@@ -25,26 +25,34 @@ class Display
         end
     end
     def run
+        message = nil
         counter = 0
         start_pos = nil
         end_pos = nil
         while true
         render
+        if counter == 1
+            print message
+            print "Where would you like to move it?\n"
+        end
         prev_pos = @cursor_pos
         @cursor_pos = @cursor.get_input
-        # rescue RuntimeError => e
-        #     puts e.message
-        # end
         if @cursor_pos == prev_pos
             counter += 1
             if counter == 1
                 start_pos = @cursor_pos
+                message = "The #{board[start_pos].color} #{board[start_pos].class} at #{start_pos} has been selected\n"
             else
                 end_pos = @cursor_pos
+                begin
                 board.move_piece(start_pos,end_pos)
+                rescue RuntimeError => e
+                    puts e.message
+                end
                 counter = 0
             end
         end
+        @cursor_pos = prev_pos if @cursor_pos.nil?
         system("clear")
         end
     end

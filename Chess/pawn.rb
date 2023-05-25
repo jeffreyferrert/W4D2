@@ -11,20 +11,18 @@ class Pawn < Piece
         valid_moves = []
         
         if at_start_row?
-            valid_moves = forward_steps
+            valid_moves.concat(forward_steps)
         else
-            valid_moves = forward_dir
+            valid_moves.concat(forward_dir)
         end
         row, col = pos
         valid_moves = valid_moves.reject {|move| !valid?(move)}
-        print "valid moves is #{valid_moves} \n"
         side_attacks.each do |move|
-            end_pos = row + move[0], col + move[0]
+            end_pos = row + move[0], col + move[1]
             if (valid?(move) && !board[end_pos].is_a?(NullPiece))
                 valid_moves << move
             end
         end
-        print "valid moves is #{valid_moves} \n"
         valid_moves.map {|move| [row + move[0],col + move[1]]}
     end
 
@@ -37,21 +35,21 @@ class Pawn < Piece
         end
     end
     def forward_dir
-        valid_moves = FORWARD_DIR.take(1)
+        valid_moves = FORWARD_DIR.dup.take(1)
         if color == :white
             valid_moves.map! {|move| [move[0]*(-1),move[1]]}
         end
         valid_moves
     end
     def forward_steps
-        valid_moves = FORWARD_DIR.take(2)
+        valid_moves = FORWARD_DIR.dup.take(2)
         if color == :white
             valid_moves.map! {|move| [move[0]*(-1),move[1]]}
         end
         valid_moves
     end
     def side_attacks
-        valid_moves = SIDE_ATTACKS
+        valid_moves = SIDE_ATTACKS.dup
         if color == :white
             valid_moves.map! {|move| [move[0]*(-1),move[1]]}
         end
